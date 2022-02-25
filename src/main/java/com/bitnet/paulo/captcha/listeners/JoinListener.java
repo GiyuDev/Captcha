@@ -4,6 +4,7 @@ import com.bitnet.paulo.captcha.Main;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -12,7 +13,7 @@ public class JoinListener implements Listener {
 
     private final Main plugin;
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent e) {
         plugin.getManager().createPlayer(e.getPlayer());
         Bukkit.getScheduler().runTaskLater(plugin, ()->{
