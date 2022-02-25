@@ -54,6 +54,29 @@ public class CaptchaMenu {
             int slot = slot_list.get(random.nextInt(slot_list.size()));
 
             this.getInventory().setItem(slot, verify_item);
+
+            ItemStack fill_item;
+            if (Bukkit.getBukkitVersion().contains("1.8")) {
+                fill_item = new ItemStack(Material.valueOf("STAINED_GLASS_PANE"), 1, (short) 14);
+            } else {
+                fill_item = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+            }
+            ItemMeta fill_meta = fill_item.getItemMeta();
+
+            assert fill_meta != null;
+            fill_meta.setDisplayName("");
+            fill_meta.setLore(Collections.singletonList(""));
+            fill_meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
+            fill_item.setItemMeta(fill_meta);
+
+            for (int i = 0; i < this.getInventory().getSize(); i++) {
+                if (this.getInventory().getItem(i) == null) {
+                    this.getInventory().setItem(i, fill_item);
+                } else if (this.getInventory().getItem(i).getType().equals(Material.AIR)) {
+                    this.getInventory().setItem(i, fill_item);
+                }
+            }
         }
     }
 
@@ -66,12 +89,12 @@ public class CaptchaMenu {
                     Bukkit.getScheduler().runTaskLater(plugin, ()-> {
                         InventoryView view = p.getOpenInventory();
                         this.viewMap.put(p, view);
-                    }, 5L);
+                    }, 1L);
                 } else {
                     Bukkit.getScheduler().runTaskLater(plugin, ()-> {
                         InventoryView view = p.getOpenInventory();
                         this.viewMap.put(p, view);
-                    }, 5L);
+                    }, 1L);
                 }
             }
         }
