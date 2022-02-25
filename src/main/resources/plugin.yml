@@ -1,0 +1,6 @@
+name: Captcha
+version: '1.0'
+main: com.bitnet.paulo.captcha.Main
+api-version: 1.13
+author: Giyu
+description: An anti bot simple system.
