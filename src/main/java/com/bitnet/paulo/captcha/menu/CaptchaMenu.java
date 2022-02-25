@@ -7,7 +7,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,7 +20,7 @@ public class CaptchaMenu {
     private final Main plugin;
 
     @Getter
-    private final HashMap<Player, InventoryView> viewMap;
+    private final HashMap<Player, Inventory> viewMap;
 
     public CaptchaMenu(Main plugin) {
         this.plugin = plugin;
@@ -87,13 +86,7 @@ public class CaptchaMenu {
                 p.openInventory(this.getInventory());
                 if (!this.viewMap.containsKey(p)) {
                     Bukkit.getScheduler().runTaskLater(plugin, ()-> {
-                        InventoryView view = p.getOpenInventory();
-                        this.viewMap.put(p, view);
-                    }, 1L);
-                } else {
-                    Bukkit.getScheduler().runTaskLater(plugin, ()-> {
-                        InventoryView view = p.getOpenInventory();
-                        this.viewMap.put(p, view);
+                        this.viewMap.put(p, this.getInventory());
                     }, 1L);
                 }
             }

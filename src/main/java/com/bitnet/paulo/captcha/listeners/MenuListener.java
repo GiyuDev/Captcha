@@ -9,8 +9,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.InventoryView;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 @RequiredArgsConstructor
@@ -44,16 +44,14 @@ public class MenuListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void close(InventoryCloseEvent e) {
-        if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', "&cCaptcha"))) {
-            Player p = (Player) e.getPlayer();
-            if (plugin.getManager().containsPlayer(p)) {
-                while (!plugin.getManager().getVerifiedStatus(p)) {
-                    if (plugin.getMenu().getViewMap().containsKey(p)) {
-                        if (plugin.getMenu().getViewMap().get(p) != null) {
-                            InventoryView view = plugin.getMenu().getViewMap().get(p);
-                            p.openInventory(view);
-                        }
+    public void move(PlayerMoveEvent e) {
+        Player p = e.getPlayer();
+        if (plugin.getManager().containsPlayer(p)) {
+            if (!plugin.getManager().getVerifiedStatus(p)) {
+                if (plugin.getMenu().getViewMap().containsKey(p)) {
+                    if (plugin.getMenu().getViewMap().get(p) != null) {
+                        Inventory inv = plugin.getMenu().getViewMap().get(p);
+                        p.openInventory(inv);
                     }
                 }
             }
